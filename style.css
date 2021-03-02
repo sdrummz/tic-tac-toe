@@ -16,6 +16,13 @@
 }
 
 .cell {
-  position: relative;
   background-color: blueviolet;
+  color: black;
+  text-align: center;
+  font-family: 'Indie Flower', cursive;
+  font-size: 110px;
+}
+
+.cell:hover {
+  background-color: cadetblue;
 }

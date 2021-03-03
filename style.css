@@ -26,3 +26,7 @@
 .cell:hover {
   background-color: cadetblue;
 }
+
+.win-cell {
+  background-color: green;
+}

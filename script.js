@@ -30,10 +30,12 @@ const displayController = (() => {
     square.forEach( el => {
         el.addEventListener('click', () => {
             // only add players mark on empty cell
-            if (gameBoard.board[el.getAttribute('data-index')] === '') {
-                assignMark(el.getAttribute('data-index'));
-                gameController.checkWinner();
-                gameController.switchPlayer();
+            if (gameController.gameActive) {
+                if (gameBoard.board[el.getAttribute('data-index')] === '') {
+                    assignMark(el.getAttribute('data-index'));
+                    gameController.checkWinner();
+                    gameController.switchPlayer();
+                }
             }
             
         })
@@ -53,7 +55,15 @@ const displayController = (() => {
         }
     }
 
-    return { updateBoard };
+    // highlight winning cells after win, based on winCells from winConditions array
+    const highlightWin = () => {
+        square[gameController.winCells[0]].classList.add('win-cell');
+        square[gameController.winCells[1]].classList.add('win-cell');
+        square[gameController.winCells[2]].classList.add('win-cell');
+
+    }
+
+    return { updateBoard, highlightWin };
 
 })();
 
@@ -65,6 +75,9 @@ const gameController = (() => {
 
     // game starts with Player X
     let activePlayer = playerX;
+    let gameActive = true;
+    let winCells = [];
+
 
     // function switches active player following move
     const switchPlayer = () => {
@@ -88,16 +101,23 @@ const gameController = (() => {
     ];
 
     const checkWinner = () => {
-        winConditions.forEach( el => {
-            if (gameBoard.board[el[0]] === gameController.activePlayer.mark
-                && gameBoard.board[el[1]] === gameController.activePlayer.mark
-                && gameBoard.board[el[2]] === gameController.activePlayer.mark) {
-                    console.log(`${gameController.activePlayer.player} wins!`)
+        winConditions.forEach( (el, i) => {
+            if (gameBoard.board[el[0]] === activePlayer.mark
+                && gameBoard.board[el[1]] === activePlayer.mark
+                && gameBoard.board[el[2]] === activePlayer.mark) {
+                    console.log(`${activePlayer.player} wins!`)
+
+                    // freeze game after win until restart
+                    gameController.gameActive = false;   
                     
+                    // set winning cells to be highlighted
+                    gameController.winCells = el;
+
+                    displayController.highlightWin();
                 }
         }) 
     }
 
-    return { activePlayer, switchPlayer, checkWinner };
+    return { activePlayer, gameActive, winCells, switchPlayer, checkWinner };
 
 })();

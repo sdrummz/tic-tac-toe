@@ -69,9 +69,11 @@ const displayController = (() => {
     }
 
     const removeHighlight = () => {
-        square[gameController.winCells[0]].classList.remove('win-cell');
-        square[gameController.winCells[1]].classList.remove('win-cell');
-        square[gameController.winCells[2]].classList.remove('win-cell');
+        if (gameController.winCells !== 0) {
+            square[gameController.winCells[0]].classList.remove('win-cell');
+            square[gameController.winCells[1]].classList.remove('win-cell');
+            square[gameController.winCells[2]].classList.remove('win-cell');
+        }
     }
 
     return { updateBoard, highlightWin, removeHighlight };
@@ -87,7 +89,7 @@ const gameController = (() => {
     // game starts with Player X
     let activePlayer = playerX;
     let gameActive = true;
-    let winCells = [];
+    let winCells = 0;
 
 
     // function switches active player following move

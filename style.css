@@ -1,14 +1,24 @@
 .title {
   font-family: 'Indie Flower', cursive;
-  font-size: 50px;
+  text-align: center;
+  color: #7868e6;
+  font-size: 60px;
+}
+
+body {
+  background-color: #edeef7;
+  margin: 0;
+  padding: 0;
 }
 
 .gameboard {
   position: relative;
+  margin: auto;
   border: 3px solid black;
   width: 500px;
   height: 500px;
   padding: 5px;
+  background-color: black;
 }
 
 .cells {
@@ -21,7 +31,7 @@
 }
 
 .cell {
-  background-color: blueviolet;
+  background-color: #7868e6;
   color: black;
   text-align: center;
   font-family: 'Indie Flower', cursive;
@@ -29,9 +39,39 @@
 }
 
 .cell:hover {
-  background-color: cadetblue;
+  background-color: #b8b5ff;
 }
 
 .win-cell {
   background-color: green;
+}
+
+.button {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.restart {
+  box-shadow: inset 0px 1px 0px 0px #97c4fe;
+  background-color: #7868e6;
+  border-radius: 7px;
+  border: 2px solid #7868e6;
+  position: relative;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 8px 24px;
+  text-decoration: none;
+  outline: none;
+  text-shadow: 0px 1px 0px #1570cd;
+}
+.restart:hover {
+  background: linear-gradient(to bottom, #b8b5ff 5%, #3d94f6 100%);
+  background-color: #b8b5ff;
+}
+.restart:active {
+  position: relative;
+  top: 1px;
 }

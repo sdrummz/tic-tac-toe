@@ -8,8 +8,13 @@ const gameBoard = (() => {
     // this module sets the gameboard, and functions to set, get, and reset the game
     let board = ['', '', '', '', '', '', '', '', ''];
 
+    const resetBoard = () => {
+        for (let i = 0; i < board.length; i++) {
+            board[i] = '';
+        }
+    }
 
-    return { board }
+    return { board, resetBoard }
 
 })();
 
@@ -61,10 +66,15 @@ const displayController = (() => {
         square[gameController.winCells[0]].classList.add('win-cell');
         square[gameController.winCells[1]].classList.add('win-cell');
         square[gameController.winCells[2]].classList.add('win-cell');
-
     }
 
-    return { updateBoard, highlightWin };
+    const removeHighlight = () => {
+        square[gameController.winCells[0]].classList.remove('win-cell');
+        square[gameController.winCells[1]].classList.remove('win-cell');
+        square[gameController.winCells[2]].classList.remove('win-cell');
+    }
+
+    return { updateBoard, highlightWin, removeHighlight };
 
 })();
 
@@ -119,6 +129,16 @@ const gameController = (() => {
                 }
         }) 
     }
+
+    // restart button 
+    const restartBtn = document.querySelector('.restart');
+    restartBtn.addEventListener('click', () => {
+        gameBoard.resetBoard();
+        gameController.gameActive = true;
+        gameController.activePlayer = playerX;
+        displayController.removeHighlight();
+        displayController.updateBoard();
+    })
 
     return { activePlayer, gameActive, winCells, switchPlayer, checkWinner };
 

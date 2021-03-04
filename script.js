@@ -29,12 +29,13 @@ const displayController = (() => {
     let square = document.querySelectorAll('.cell');
     square.forEach( el => {
         el.addEventListener('click', () => {
-            // only add players mark on empty cell
+            // only add players mark on empty cell, when game is active
             if (gameController.gameActive) {
                 if (gameBoard.board[el.getAttribute('data-index')] === '') {
                     assignMark(el.getAttribute('data-index'));
                     gameController.checkWinner();
                     gameController.switchPlayer();
+                    
                 }
             }
             
@@ -100,15 +101,16 @@ const gameController = (() => {
         [2, 4, 6],
     ];
 
+    // check winning function and following logic
     const checkWinner = () => {
         winConditions.forEach( (el, i) => {
-            if (gameBoard.board[el[0]] === activePlayer.mark
-                && gameBoard.board[el[1]] === activePlayer.mark
-                && gameBoard.board[el[2]] === activePlayer.mark) {
-                    console.log(`${activePlayer.player} wins!`)
+            if (gameBoard.board[el[0]] === gameController.activePlayer.mark
+                && gameBoard.board[el[1]] === gameController.activePlayer.mark
+                && gameBoard.board[el[2]] === gameController.activePlayer.mark) {
+                    console.log(`${gameController.activePlayer.player} wins!`)
 
                     // freeze game after win until restart
-                    gameController.gameActive = false;   
+                    gameController.gameActive = false;
                     
                     // set winning cells to be highlighted
                     gameController.winCells = el;

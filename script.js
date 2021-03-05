@@ -40,7 +40,7 @@ const displayController = (() => {
                     assignMark(el.getAttribute('data-index'));
                     gameController.checkWinner();
                     gameController.switchPlayer();
-                    
+                    displayMessage();
                 }
             }
             
@@ -63,20 +63,32 @@ const displayController = (() => {
 
     // highlight winning cells after win, based on winCells from winConditions array
     const highlightWin = () => {
-        square[gameController.winCells[0]].classList.add('win-cell');
-        square[gameController.winCells[1]].classList.add('win-cell');
-        square[gameController.winCells[2]].classList.add('win-cell');
+        for (let i = 0; i < gameController.winCells.length; i++) {
+            square[gameController.winCells[i]].classList.add('win-cell');
+        }
     }
 
     const removeHighlight = () => {
         if (gameController.winCells !== 0) {
-            square[gameController.winCells[0]].classList.remove('win-cell');
-            square[gameController.winCells[1]].classList.remove('win-cell');
-            square[gameController.winCells[2]].classList.remove('win-cell');
+            for (let i = 0; i < gameController.winCells.length; i++) {
+                square[gameController.winCells[i]].classList.remove('win-cell');
+            }
         }
     }
 
-    return { updateBoard, highlightWin, removeHighlight };
+    const message = document.querySelector('.message');
+    const displayMessage = () => {
+        const message = document.querySelector('.message');
+
+        if (gameController.gameActive) {
+            message.textContent = `${gameController.activePlayer.player}'s turn`;
+        } else {
+            message.textContent = `${gameController.activePlayer.player} wins!`;
+        }
+        
+    }
+
+    return { updateBoard, highlightWin, removeHighlight, displayMessage };
 
 })();
 
@@ -94,10 +106,12 @@ const gameController = (() => {
 
     // function switches active player following move
     const switchPlayer = () => {
-        if (gameController.activePlayer === playerX) {
-            gameController.activePlayer = playerO;
-        } else if (gameController.activePlayer === playerO) {
-            gameController.activePlayer = playerX;
+        if (gameController.gameActive) {
+            if (gameController.activePlayer === playerX) {
+                gameController.activePlayer = playerO;
+            } else if (gameController.activePlayer === playerO) {
+                gameController.activePlayer = playerX;
+            }
         }
     }
 
@@ -128,7 +142,9 @@ const gameController = (() => {
                     gameController.winCells = el;
 
                     displayController.highlightWin();
-                }
+            } if (!gameBoard.board.includes('')) {
+                console.log(`It's a draw`);
+            }
         }) 
     }
 
@@ -140,6 +156,7 @@ const gameController = (() => {
         gameController.activePlayer = playerX;
         displayController.removeHighlight();
         displayController.updateBoard();
+        document.querySelector('.message').textContent = `${gameController.activePlayer.player}'s turn`;
     })
 
     return { activePlayer, gameActive, winCells, switchPlayer, checkWinner };

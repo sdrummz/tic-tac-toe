@@ -6,5 +6,5 @@ Will implement a Minimax algorithm so that you can play against the computer eve
 
 # Demo Link
 
-https://szglabs.github.io/tic-tac-toe/
+https://sdrummz.github.io/tic-tac-toe/
 
